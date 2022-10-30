@@ -50,11 +50,13 @@ WHERE START >= '2019-01-01'
 
 /*what about average LOS?*/
 
-SELECT avg(LOS_Minutes) AS 'Average LOS' FROM (
-        SELECT * ,TIMESTAMPDIFF(MINUTE,START,STOP) LOS_Minutes
-        FROM encounters
-        WHERE START >= '2019-01-01'
-            AND START < '2020-01-01'
-            AND ENCOUNTERCLASS = 'emergency'
+SELECT LOS.DESCRIPTION, avg(LOS_Minutes) AS 'Average LOS' FROM (
+        SELECT ENC.id, CON.DESCRIPTION ,TIMESTAMPDIFF(MINUTE,ENC.START,ENC.STOP) LOS_Minutes
+        FROM encounters ENC
+        LEFT JOIN conditions CON ON ENC.Id=CON.encounter
+        WHERE ENC.START >= '2019-01-01'
+        AND ENC.START < '2020-01-01'
+        AND ENC.ENCOUNTERCLASS = 'emergency'
 ) LOS /*naming the table*/
+GROUP BY LOS.DESCRIPTION
 

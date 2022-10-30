@@ -9,7 +9,6 @@ WHERE START >= '2019-01-01'
     AND ENCOUNTERCLASS = 'emergency';
 
 
-
 /* What conditions were treated in the above encounters? note there will be missing data*/
 
 SELECT CON.DESCRIPTION, count(*)
